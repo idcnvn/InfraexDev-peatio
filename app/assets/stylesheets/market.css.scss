@@ -1,3 +1,4 @@
+
 @import "bourbon";
 
 @import 'vars/bootstrap';
@@ -28,7 +29,7 @@ body,
 }
 
 body {
-  min-width: $min-width !important;
+/*  min-width: $min-width !important; */
   min-height: $min-height !important;
 
   // fixed icon spin
@@ -218,7 +219,7 @@ header {
 
 .content {
   top: $navbar-height;
-  min-width: $min-width;
+/*  min-width: $min-width; */
   min-height: $min-height - $navbar-height;
   width: 100%;
   height: 100%;
@@ -258,20 +259,16 @@ header {
     width: auto;
     position: absolute;
 
-    li > a { background: #000; }
+    li > a { background: #364450; }
 
     &.tabs-left {
       left: 3px;
       li { float: right; } // turn tabs
-      @include transform(rotate(-90deg));
-      @include transform-origin(left bottom);
     }
 
     &.tabs-right {
       right: 3px;
       li { float: left; } // turn tabs
-      @include transform(rotate(90deg));
-      @include transform-origin(right bottom);
     }
   }
 
@@ -289,19 +286,33 @@ header {
 
   &.hover, &.hover-force {
     width: $width;
+    height: $height;
     .tab-content { display: block; }
     .sideways.tabs-left { left: 1px; }
   }
 }
 
-#chat_tabs_wrapper {
+chat_tabs_wrapper {
   bottom: $gutter; left: $gutter;
   min-height: 300px;
-  @include float-wrapper(260px, 300px);
+  @include float-wrapper($market-list-width, 300px);
   &.stop-resize {
     height: 100px !important;
     min-height: 100px !important;
     & > ul { top: 140px }
+  }
+}
+
+left_side_tabs_wrapper {
+  /*bottom: $gutter;*/
+  left: $gutter;
+  top: $gutter;
+  z-index: 1000;
+  @include float-wrapper($market-list-width, $side-bar-height);
+  &.stop-resize {
+    height: 100px !important;
+    min-height: 100px !important;
+    & > ul { top: 100px }
   }
 }
 
@@ -463,13 +474,13 @@ header {
 
 /* layout position
 ----------------------------------------------- */
-#ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
+#ask_entry, #bid_entry { width: $entry-width; height: $right-entry-height; }
 .entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
 .entry-left { bottom: $gutter; right: $gutter; }
 
 #ticker {
   width: $ticker-width; height: $ticker-height;
-  bottom: $gutter_4x + $entry-height + $my-orders-height + $depths-height; right: $gutter;
+  bottom: $gutter_3x + $right-entry-height + $my-orders-height + $depths-height; right: $gutter;
 
   .ask, .last, .bid {
     text-align: center;
@@ -479,8 +490,8 @@ header {
 
   .last {
     padding-top: 5px;
-    font-size: 34px;
-    line-height: 34px;
+    font-size: 24px;
+    line-height: 42px;
   }
 }
 
@@ -494,6 +505,15 @@ header {
   }
 
   table.asks, table.bids {
+    font-size: 12px;
+    font-weight: bold;
+
+    td.price {
+       .fill { color: #333; }
+       .satoshi { color: #777; } /*2EB5DD*/
+       .satoshi-hide { color: #333; } /*2E4582*/
+      }
+
     .new {
       background-color: #333;
       div { display: none; }
@@ -532,7 +552,7 @@ header {
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;
-  bottom: $gutter-3x + $my-orders-height + $entry-height; right: $gutter;
+  bottom: $gutter-3x + $my-orders-height + $right-entry-height; right: $gutter;
 
   .panel-body {
     padding: 0;
@@ -549,7 +569,7 @@ header {
   .dropdown-wrapper {
     position: absolute;
     height: 100px;
-    top: $market-list-height + $gutter-3x; left: $market-trades-width + $gutter;
+    top: $market-list-height + $gutter-3x + 37; left: $market-trades-width + $gutter;
     z-index: 998;
   }
 }
@@ -569,6 +589,12 @@ header {
   }
   .panel-body-content {
     min-height: $market-trades-height - $panel_table_header_high;
+
+    td.price {
+       .fill { color: #333; }
+       .satoshi { color: #777; } /*2EB5DD*/
+       .satoshi-hide { color: #333; } /*2E4582*/
+      }
   }
 
   table {
@@ -589,9 +615,9 @@ header {
 #market_list_wrapper {
   .dropdown-wrapper {
     position: absolute;
-    width: 200px;
+    width: 150px;
     height: 100px;
-    top: $gutter; left: $market-list-width + $gutter;
+    top: $gutter + 37; left: $market-list-width + $gutter;
     z-index: 998;
   }
 }
@@ -601,23 +627,189 @@ header {
   top: $gutter; left: $gutter;
   width: $market-list-width; height: $market-list-height;
   z-index: 999;
+  
+  .panel-default {
 
-  .panel-body-content {
-    height: $market-list-height - $panel_table_header_high;
+    width: $market-list-width;
 
-    td.price {
-      .fill { color: #333; }
-    }
+    .panel-body-content {
+      height: $market-list-height - $panel_table_header_high;
 
-    td.change {
-      min-width: 72px;
-    }
+      td.price {
+        .fill { color: #333; }
+        .satoshi { color: #777; } /*2EB5DD*/
+        .satoshi-hide { color: #333; } /*2E4582*/
+      }
 
-    .markets {
-      tr { display: none; }
-      &.all { tr { display: block; } }
-      &.cny { tr.quote-cny { display: block; } }
-      &.btc { tr.quote-btc { display: block; } }
+      td.change {
+        min-width: 72px;
+      }
+
+      .markets {
+        tr { display: none; }
+        &.all { tr { display: block; } }
+        &.cny { tr.quote-cny { display: block; } }
+        &.btc { tr.quote-btc { display: block; } }
+        &.ltc { tr.quote-ltc { display: block; } }
+        &.doge { tr.quote-doge { display: block; } }
+        &.gio { tr.quote-gio { display: block; } }
+        &.eth { tr.quote-eth { display: block; } }
+        &.psd { tr.quote-psd { display: block; } }
+      &.phc { tr.quote-phc { display: block; } }
+      &.xgc { tr.quote-xgc { display: block; } }
+      &.dev { tr.quote-dev { display: block; } }
+      &.pbs { tr.quote-pbs { display: block; } }
+      &.din { tr.quote-din { display: block; } }
+      &.adv { tr.quote-adv { display: block; } }
+      &.dv7 { tr.quote-dv7 { display: block; } }
+      &.jew { tr.quote-jew { display: block; } }
+      &.argo { tr.quote-argo { display: block; } }
+      &.esco { tr.quote-esco { display: block; } }
+      &.neet { tr.quote-neet { display: block; } }
+      &.xylo { tr.quote-xylo { display: block; } }
+      &.steep { tr.quote-steep { display: block; } }
+      &.bitg { tr.quote-bitg { display: block; } }
+      &.crft { tr.quote-crft { display: block; } }
+      &.env { tr.quote-env { display: block; } }
+      &.xsg { tr.quote-xsg { display: block; } }
+      &.nyc { tr.quote-nyc { display: block; } }
+      &.zoc { tr.quote-zoc { display: block; } }
+      &.btcz { tr.quote-btcz { display: block; } }
+      &.ytn { tr.quote-ytn { display: block; } }
+      &.yic { tr.quote-yic { display: block; } }
+      &.tlp { tr.quote-tlp { display: block; } }
+      &.pwc { tr.quote-pwc { display: block; } }
+      &.shnd { tr.quote-shnd { display: block; } }
+      &.lmn { tr.quote-lmn { display: block; } }
+      &.kec { tr.quote-kec { display: block; } }
+      &.abs { tr.quote-abs { display: block; } }
+      &.suppo { tr.quote-suppo { display: block; } }
+      &.linda { tr.quote-linda { display: block; } }
+      &.hight { tr.quote-hight { display: block; } }
+      &.bls { tr.quote-bls { display: block; } }
+      &.tokc { tr.quote-tokc { display: block; } }
+      &.elp { tr.quote-elp { display: block; } }
+      &.zex { tr.quote-zex { display: block; } }
+      &.rlc { tr.quote-rlc { display: block; } }
+      &.lucky { tr.quote-lucky { display: block; } }
+      &.ich { tr.quote-ich { display: block; } }
+      &.mmb { tr.quote-mmb { display: block; } }
+      &.pnx { tr.quote-pnx { display: block; } }
+      &.mix { tr.quote-mix { display: block; } }
+      &.kreds { tr.quote-kreds { display: block; } }
+      &.bkt { tr.quote-bkt { display: block; } }
+      &.snx { tr.quote-snx { display: block; } }
+      &.giro { tr.quote-giro { display: block; } }
+      &.onex { tr.quote-onex { display: block; } }
+      &.pushi { tr.quote-pushi { display: block; } }
+      &.vrt { tr.quote-vrt { display: block; } }
+      &.zaca { tr.quote-zaca { display: block; } }
+      &.xhm { tr.quote-xhm { display: block; } }
+      &.xar { tr.quote-xar { display: block; } }
+      &.rupx { tr.quote-rupx { display: block; } }
+      &.frm { tr.quote-frm { display: block; } }
+      &.men { tr.quote-men { display: block; } }
+      &.mun { tr.quote-mun { display: block; } }
+      &.onemc { tr.quote-onemc { display: block; } }
+      &.alp { tr.quote-alp { display: block; } }
+      &.zel { tr.quote-zel { display: block; } }
+      &.amx { tr.quote-amx { display: block; } }
+      &.pew { tr.quote-pew { display: block; } }
+      &.fsc { tr.quote-fsc { display: block; } }
+      &.sln { tr.quote-sln { display: block; } }
+      &.usx { tr.quote-usx { display: block; } }
+      &.bsx { tr.quote-bsx { display: block; } }
+      &.eot { tr.quote-eot { display: block; } }
+      &.xap { tr.quote-xap { display: block; } }
+      &.miac { tr.quote-miac { display: block; } }
+      &.kc { tr.quote-kc { display: block; } }
+      &.arhm { tr.quote-arhm { display: block; } }
+      &.olmp { tr.quote-olmp { display: block; } }
+      &.onz { tr.quote-onz { display: block; } }
+      &.agn { tr.quote-agn { display: block; } }
+      &.crz { tr.quote-crz { display: block; } }
+      &.enix { tr.quote-enix { display: block; } }
+      &.snc { tr.quote-snc { display: block; } }
+      &.quaz { tr.quote-quaz { display: block; } }
+      &.scriv { tr.quote-scriv { display: block; } }
+      &.ethf { tr.quote-ethf { display: block; } }
+      &.arepa { tr.quote-arepa { display: block; } }
+      &.sub1x { tr.quote-sub1x { display: block; } }
+      &.cheese { tr.quote-cheese { display: block; } }
+      &.jiyo { tr.quote-jiyo { display: block; } }
+      &.pyro { tr.quote-pyro { display: block; } }
+      &.roe { tr.quote-roe { display: block; } }
+      &.citr { tr.quote-citr { display: block; } }
+      &.xen { tr.quote-xen { display: block; } }
+      &.edl { tr.quote-edl { display: block; } }
+      &.cru { tr.quote-cru { display: block; } }
+      &.ndc { tr.quote-ndc { display: block; } }
+      &.zls { tr.quote-zls { display: block; } }
+      &.proton { tr.quote-proton { display: block; } }
+      &.krait { tr.quote-krait { display: block; } }
+      &.aln { tr.quote-aln { display: block; } }
+      &.bcp { tr.quote-bcp { display: block; } }
+      &.xmx { tr.quote-xmx { display: block; } }
+      &.ida { tr.quote-ida { display: block; } }
+      &.unify { tr.quote-unify { display: block; } }
+      &.and { tr.quote-and { display: block; } }
+      &.vig { tr.quote-vig { display: block; } }
+      &.peps { tr.quote-peps { display: block; } }
+      &.vizz { tr.quote-vizz { display: block; } }
+      &.mon { tr.quote-mon { display: block; } }
+      &.lunex { tr.quote-lunex { display: block; } }
+      &.pruf { tr.quote-pruf { display: block; } }
+      &.want { tr.quote-want { display: block; } }
+      &.mmo { tr.quote-mmo { display: block; } }
+      &.cbt { tr.quote-cbt { display: block; } }
+      &.xt3 { tr.quote-xt3 { display: block; } }
+      &.btcf { tr.quote-btcf { display: block; } }
+      &.zcr { tr.quote-zcr { display: block; } }
+      &.slrc { tr.quote-slrc { display: block; } }
+      &.aevo { tr.quote-aevo { display: block; } }
+      &.ppx { tr.quote-ppx { display: block; } }
+      &.yoba { tr.quote-yoba { display: block; } }
+      &.nbx { tr.quote-nbx { display: block; } }
+      &.elli { tr.quote-elli { display: block; } }
+      &.kgx { tr.quote-kgx { display: block; } }
+      &.akn { tr.quote-akn { display: block; } }
+      &.aka { tr.quote-aka { display: block; } }
+      &.rvn { tr.quote-rvn { display: block; } }
+      &.posq { tr.quote-posq { display: block; } }
+      &.radius { tr.quote-radius { display: block; } }
+      &.dsc { tr.quote-dsc { display: block; } }
+      &.varius { tr.quote-varius { display: block; } }
+      &.cyr { tr.quote-cyr { display: block; } }
+      &.bbrc { tr.quote-bbrc { display: block; } }
+      &.ikt { tr.quote-ikt { display: block; } }
+      &.bsl { tr.quote-bsl { display: block; } }
+      &.bff { tr.quote-bff { display: block; } }
+      &.toba { tr.quote-toba { display: block; } }
+      &.alps { tr.quote-alps { display: block; } }
+      &.rlm { tr.quote-rlm { display: block; } }
+      &.vzh { tr.quote-vzh { display: block; } }
+      &.rco { tr.quote-rco { display: block; } }
+      &.cbc { tr.quote-cbc { display: block; } }
+      &.exam { tr.quote-exam { display: block; } }
+      &.nah { tr.quote-nah { display: block; } }
+      &.slash { tr.quote-slash { display: block; } }
+      &.adr { tr.quote-adr { display: block; } }
+      &.htrc { tr.quote-htrc { display: block; } }
+      &.ice { tr.quote-ice { display: block; } }
+      &.ebs { tr.quote-ebs { display: block; } }
+      &.xeh { tr.quote-xeh { display: block; } }
+      &.krm { tr.quote-krm { display: block; } }
+      &.cgur { tr.quote-cgur { display: block; } }
+      &.vre { tr.quote-vre { display: block; } }
+      &.her { tr.quote-her { display: block; } }
+      &.bzm { tr.quote-bzm { display: block; } }
+      &.itis { tr.quote-itis { display: block; } }
+      &.hpp { tr.quote-hpp { display: block; } }
+      &.dsn { tr.quote-dsn { display: block; } }
+      &.demos { tr.quote-demos { display: block; } }
+      &.jagar { tr.quote-jagar { display: block; } }
+      /*markets*/
+      }
     }
   }
 }
@@ -626,13 +818,15 @@ header {
   .dropdown-wrapper {
     position: absolute;
     height: $my-orders-height;
-    bottom: $gutter-2x + $entry-height; right: $order-book-width + $gutter;
+    bottom: $gutter-2x + $right-entry-height; right: $order-book-width + $gutter;
+    z-index: 999;
   }
 }
 
 #my_orders {
   width: $my-orders-width; height: $my-orders-height;
-  bottom: $gutter-2x + $entry-height; right: $gutter;
+  bottom: $gutter-2x + $right-entry-height; right: $gutter;
+  z-index: 1000;
 
   .panel-body-content {
     height: $my-orders-height - $gutter-2x;
@@ -681,7 +875,7 @@ header {
   .sideways li {
     direction: rtl;
     unicode-bidi: bidi-override;
-    v { display: inline-block; @include transform(rotate(-270deg)); }
+    v { display: inline-block; }
   }
 
   #account_summary {
@@ -717,42 +911,87 @@ header {
 
     span.input-group-addon {
       padding: 3px 6px 0px 6px;
-      min-width: 40px;
+      min-width: 60px;
       text-align: left;
       color: #aaa;
     }
 
     input {
       text-align: right;
-      padding-top: 8px !important;
+      padding-top: 6px !important;
       padding-bottom: 4px !important;
       padding-right: 6px !important;
-      padding-left: 24px !important;
+      padding-left: 6px !important;
+      font-size: 13px
     }
 
     margin-bottom: 8px;
   }
 
   .hint-price-disadvantage, .hint-positions  {
-    top: 3px;
-    left: 60px;
+    top: 2px;
+    left: 2px;
+    margin-left: 0px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .hint-fee  {
+    top: 12px;
+    left: 72px;
+    margin-left: 0px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .fee-info  {
+    top: 2px;
+    left: 72px;
+    margin-left: 0px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .fee-discount-info  {
+    top: 103px;
+    left: 80px;
     margin-left: 0px;
     position: absolute;
     z-index: 10;
   }
 
   .label { font-size: inherit; }
-  .label.label-info { color: $brand-info }
+  .label.label-info { color: $brand-info; font-size: 9px; padding: 0 0 0 0  }
+  .label.label-fee { color: $brand-info; font-size: 10px; padding: 0 0 0 0  }
+  .label.label-fee-info { color: $brand-info; font-size: 10px; padding: 0 0 0 0  }
+  .label.label-fee-discount-info { color: #e6b800; font-size: 10px; padding: 0 0 0 0  }
+  .label.label-fee-discount-info:hover { text-decoration: underline; }
   .label.label-success { color: $brand-success }
-  .label.label-danger { color: $brand-danger }
+  .label.label-failed { color: $brand-danger }
+  .label.label-danger { color: $brand-danger; font-size: 9px; padding: 0 0 0 0 }
 
-  span.status-info, .status-success, .status-danger {
+  span.status-info, .status-success, .status-danger, .status-fee {
     top: -3px;
     left: -6px;
     margin-left: 0px;
     position: absolute;
     i.fa { margin-left: 4px; }
   }
+
+
+  input[type=checkbox].css-checkbox 
+  { 
+    position: absolute;  
+    overflow: hidden;  
+    clip: rect(0 0 0 0);  
+    height:0px;  width:0px;  margin:-1px;  padding:0; border:0; 
+    visibility: hidden;
+  } 
+
+  input[type=checkbox].css-checkbox + label.css-label 
+  { padding-left:15px; height:13px;  display:inline-block; line-height:13px; background-repeat:no-repeat; background-position: 0 0; font-size:13px; vertical-align:middle; cursor:pointer; } 
+
+  input[type=checkbox].css-checkbox:checked  + label.css-label { background-position: 0 -13px; }  .css-label{ background-image:url(https://graviex.net/lite-x-red-13-3.png); }
 
   .row-tips {
     margin-top: 18px;
@@ -808,12 +1047,15 @@ table {
 
 .chart-ticker {
   color: #777;
-  background-color: $panel-bg-alpha;
-  border: 1px solid $navbar-default-border;
-  padding: 6px 0 6px 6px;
+  /*background-color: $panel-bg-alpha;*/
+  /*border: 1px solid $navbar-default-border;*/
+  background-color: transparent;
+  border: 0px;
+
+  padding: 14px 0 6px 6px;
   font-size: 11px;
 
-  & > div { display: inline-block; width: 70px; }
+  & > div { display: inline-block; width: 100px; }
   & > div.tooltip-ma { width: 76; margin-top: 3px; }
   & > div.tooltip-ticker { margin-top: 5px; }
 
