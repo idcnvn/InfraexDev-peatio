@@ -73,7 +73,7 @@
   > tbody > tr > td {
     border-top: none;
     border-bottom: 1px solid #ddd;
-    padding: 20px;
+    padding: 20px 10px 10px 10px;
   }
 }
 .currency-item {
@@ -94,9 +94,11 @@
   }
   .currency-logo {
     text-align: center;
-    width: 20%;
+    max-width: 90px;
+    min-width: 90px;
     img {
       max-height: 32px;
+      max-width: 32px;
     }
     .currency-symbol {
       display: block;
@@ -104,6 +106,15 @@
       text-transform: uppercase;
       color: #999;
       font-size: 12px;
+    }
+    .currency-state {
+      text-align: center;
+      max-width: 16px;
+      max-height: 16px;
+      padding: 3px 0px 0;
+      img {
+        max-height: 12px;
+      }
     }
   }
   .currency-balance-col {
@@ -114,6 +125,7 @@
     font-size: 24px;
     font-weight: bold;
     font-family: monospace;
+    padding: -10px 0px 0;
     margin: 0;
     .currency-sign {
       display: none;
@@ -127,6 +139,18 @@
     font-size: 14px;
     font-weight: normal;
   }
+  .currency-info-ext {
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .currency-info {
+    padding: 5px 0px 0;
+    display: block;
+    color: #999;
+    font-size: 12px;
+    font-weight: normal;
+  }
   .currency-actions {
     position: relative;
     text-align: right;
@@ -135,7 +159,7 @@
       margin: 0;
       position: relative;
       &:first-child {
-        margin: 0 0 20px 0;
+        margin: -50px 0 20px 0;
       }
     }
   }
