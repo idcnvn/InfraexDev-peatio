@@ -5,11 +5,14 @@
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
 
-@import "bootstrap-wysihtml5/core-b3";
-@import "bootstrap-wysihtml5/wysiwyg-color";
-
+//= require bootstrap-wysihtml5
+//= require bootstrap-wysihtml5
 @import 'vars/basic';
 @import 'vars/custom';
+
+.label-failed {
+    background-color: #f44235;
+}
 
 .dl-horizontal dt {
   width: 120px;
@@ -17,6 +20,8 @@
 
 .dl-horizontal dd {
   margin-left: 140px;
+  width: 25em;
+  word-wrap: break-word;
 }
 
 body { padding-top: 80px; }
@@ -82,8 +87,13 @@ span.detail-section {
 }
 
 .unread {
-  background: #f2f2f2;
+  background: #FFB070;
 }
+
+.pending {
+  background: #e8e983;
+}
+
 
 [data-title] {
   &:before {
